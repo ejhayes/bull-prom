@@ -1,5 +1,5 @@
 
-import { Greeter } from "../src/greeter";
+import { Greeter } from "../src/metric";
 import * as chai from "chai";
 
 const expect = chai.expect;
