@@ -1,6 +1,9 @@
 {
   "extends": "tslint:latest",
   "rules": {
+    "ordered-imports": [
+      false
+    ],
     "object-literal-sort-keys": false,
     "quotemark": [true, "single"],
     "interface-name": [true, "never-prefix"]
