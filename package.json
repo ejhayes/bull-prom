@@ -1,6 +1,6 @@
 {
   "name": "kue-prom",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Provide prometheus metrics for Kue",
   "license": "MIT",
   "repository": "https://github.com/deerawan/kue-prom",
@@ -25,7 +25,8 @@
     "watch:test": "npm run test -- --watch"
   },
   "dependencies": {
-    "kue": "^0.11.5"
+    "kue": "^0.11.5",
+    "prom-client": "^9.0.0"
   },
   "devDependencies": {
     "@types/chai": "^3.0.0",
