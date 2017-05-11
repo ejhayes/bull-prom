@@ -6,8 +6,7 @@ export interface Options {
     prefixMetricName?: string;
     interval?: number;
 }
-declare const KueProm: (opts: Options) => {
+export declare function init(opts: Options): {
     run: () => void;
     stop: () => void;
 };
-export default KueProm;

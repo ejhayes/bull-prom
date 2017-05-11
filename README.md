@@ -11,11 +11,11 @@ Metrics:
 ## Usage
 ```typescript
 import promClient from 'prom-client';
-import KueProm from 'kue-prom';
+import * as kueProm from 'kue-prom';
 
 const queue: kue.Queue = kue.createQueue(...);
 
-const kueMetric = KueProm({
+const kueMetric = kueProm.init({
   jobName: 'pdf',
   queue,
   promClient, // optional, it will use internal prom client if it is not given

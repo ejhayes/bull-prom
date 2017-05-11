@@ -9,7 +9,7 @@ export interface Options {
   interval?: number;
 }
 
-const KueProm = (opts: Options) => {
+export function init(opts: Options) {
   const {queue, jobName, interval = 60000, prefixMetricName = '', promClient = client} = opts;
 
   const activeMetricName = getFullMetricName(jobName, 'job_active', prefixMetricName);
@@ -58,12 +58,10 @@ const KueProm = (opts: Options) => {
     run,
     stop,
   };
-};
+}
 
 function getFullMetricName(jobName: string, metricName: string, prefixName: string = '') {
   prefixName = (prefixName) ? `${prefixName}_` : '';
 
   return `${prefixName}${jobName}_${metricName}`;
 }
-
-export default KueProm;
