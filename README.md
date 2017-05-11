@@ -2,11 +2,11 @@
 Provides [promotheus](https://prometheus.io/) metrics for [Kue](https://github.com/Automattic/kue)
 
 Metrics:
-- inactive count (gauge)
-- active count (gauge)
-- complete count (gauge)
-- failed count (gauge)
-- delayed count (gauge)
+- inactive job (gauge)
+- active job (gauge)
+- complete job (gauge)
+- failed job (gauge)
+- delayed job (gauge)
 
 ## Usage
 ```typescript
@@ -16,7 +16,7 @@ import KueProm from 'kue-prom';
 const queue: kue.Queue = kue.createQueue(...);
 
 const kueMetric = KueProm({
-  jobName: 'pdf_job',
+  jobName: 'pdf',
   queue,
   promClient, // optional, it will use internal prom client if it is not given
   interval: 1000, // optional
@@ -26,11 +26,11 @@ const kueMetric = KueProm({
 kueMetric.run();
 
 // Metrics result in Promotheus
-// my_app_pdf_job_inactive_count
-// my_app_pdf_job_active_count
-// my_app_pdf_job_complete_count
-// my_app_pdf_job_failed_count
-// my_app_pdf_job_delayed_count
+// my_app_pdf_job_inactive
+// my_app_pdf_job_active
+// my_app_pdf_job_complete
+// my_app_pdf_job_failed
+// my_app_pdf_job_delayed
 ```
 
 ## License

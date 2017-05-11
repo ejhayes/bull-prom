@@ -12,11 +12,11 @@ export interface Options {
 const KueProm = (opts: Options) => {
   const {queue, jobName, interval = 60000, prefixMetricName = '', promClient = client} = opts;
 
-  const activeMetricName = getFullMetricName(jobName, 'active_count', prefixMetricName);
-  const inactiveMetricName = getFullMetricName(jobName, 'inactive_count', prefixMetricName);
-  const completeMetricName = getFullMetricName(jobName, 'complete_count', prefixMetricName);
-  const failedMetricName = getFullMetricName(jobName, 'failed_count', prefixMetricName);
-  const delayedMetricName = getFullMetricName(jobName, 'delayed_count', prefixMetricName);
+  const activeMetricName = getFullMetricName(jobName, 'job_active', prefixMetricName);
+  const inactiveMetricName = getFullMetricName(jobName, 'job_inactive', prefixMetricName);
+  const completeMetricName = getFullMetricName(jobName, 'job_complete', prefixMetricName);
+  const failedMetricName = getFullMetricName(jobName, 'job_failed', prefixMetricName);
+  const delayedMetricName = getFullMetricName(jobName, 'job_delayed', prefixMetricName);
 
   const activeMetric = new promClient.Gauge(activeMetricName, 'Number of active job');
   const inactiveMetric = new promClient.Gauge(inactiveMetricName, 'Number of inactive job');
