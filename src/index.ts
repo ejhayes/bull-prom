@@ -1,15 +1,16 @@
-import promClient = require('prom-client');
+import client = require('prom-client');
 import * as kue from 'kue';
 
 export interface Options {
   queue: kue.Queue;
   jobName: string;
+  promClient?: any;
   prefixMetricName?: string;
   interval?: number;
 }
 
 const KueProm = (opts: Options) => {
-  const {queue, jobName, interval = 60000, prefixMetricName = ''} = opts;
+  const {queue, jobName, interval = 60000, prefixMetricName = '', promClient = client} = opts;
 
   const activeMetricName = getFullMetricName(jobName, 'active_count', prefixMetricName);
   const inactiveMetricName = getFullMetricName(jobName, 'inactive_count', prefixMetricName);

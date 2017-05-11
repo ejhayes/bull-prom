@@ -1,13 +1,14 @@
 {
   "name": "kue-prom",
-  "version": "0.1.0",
-  "description": "kue-prom",
+  "version": "1.0.0",
+  "description": "Provide prometheus metrics for Kue",
   "license": "MIT",
   "repository": "https://github.com/deerawan/kue-prom",
   "author": "Budi Irawan <deerawan@gmail.com>",
   "keywords": [
     "prometheus",
-    "kue"
+    "kue",
+    "metrics"
   ],
   "files": [
     "lib"
@@ -24,8 +25,7 @@
     "watch:test": "npm run test -- --watch"
   },
   "dependencies": {
-    "kue": "^0.11.5",
-    "prom-client": "^9.0.0"
+    "kue": "^0.11.5"
   },
   "devDependencies": {
     "@types/chai": "^3.0.0",
