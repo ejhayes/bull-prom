@@ -19,7 +19,7 @@ const kueMetric = kueProm.init({
   jobName: 'pdf',
   queue,
   promClient, // optional, it will use internal prom client if it is not given
-  interval: 1000, // optional
+  interval: 1000, // optional, in ms, default to 60000
   prefixMetricName: 'my_app' // optional
 });
 
@@ -33,5 +33,22 @@ kueMetric.run();
 // my_app_pdf_job_delayed
 ```
 
+## API
+### init(options)
+Initialize
+
+options:
+- jobName (**required**): kue job name
+- queue (**required**): kue queue
+- promClient (*optional*): prom client instance
+- interval (*optional*, default 60ms): interval to fetch the Kue statistic
+- prefixMetricName (*optional*): prefix for metric name
+
+### run()
+Start running and fetching the data from Kue based on interval
+
+### stop()
+Stop running
+
 ## License
-MIT [Budi Irawan](https://github.com/deerawan)
+MIT © [Budi Irawan](https://github.com/deerawan)
