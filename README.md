@@ -41,7 +41,7 @@ options:
 - jobName (**required**): kue job name
 - queue (**required**): kue queue
 - promClient (*optional*): prom client instance
-- interval (*optional*, default 60ms): interval to fetch the Kue statistic
+- interval (*optional*, default 60000): interval in ms to fetch the Kue statistic
 - prefixMetricName (*optional*): prefix for metric name
 
 ### run()

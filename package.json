@@ -1,6 +1,6 @@
 {
   "name": "kue-prom",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Provide prometheus metrics for Kue",
   "license": "MIT",
   "repository": "https://github.com/deerawan/kue-prom",
