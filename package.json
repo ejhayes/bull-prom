@@ -1,13 +1,13 @@
 {
-  "name": "kue-prom",
-  "version": "1.0.3",
-  "description": "Provide prometheus metrics for Kue",
+  "name": "bull-prom",
+  "version": "1.0.0",
+  "description": "Provide prometheus metrics for Bull",
   "license": "MIT",
-  "repository": "https://github.com/deerawan/kue-prom",
-  "author": "Budi Irawan <deerawan@gmail.com>",
+  "repository": "https://github.com/pbadenski/bull-prom",
+  "author": "Pawel Badenski <pawel.badenski@gmail.com>",
   "keywords": [
     "prometheus",
-    "kue",
+    "bull",
     "metrics"
   ],
   "files": [
@@ -25,12 +25,12 @@
     "watch:test": "npm run test -- --watch"
   },
   "dependencies": {
-    "kue": "^0.11.5",
+    "bull": "^3.2.0",
     "prom-client": "^9.0.0"
   },
   "devDependencies": {
+    "@types/bull": "^3.0.0",
     "@types/chai": "^3.0.0",
-    "@types/kue": "^0.11.0",
     "@types/mocha": "^2.0.0",
     "@types/node": "^7.0.0",
     "@types/sinon": "^2.2.1",

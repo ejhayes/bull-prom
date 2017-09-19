@@ -1,9 +1,9 @@
-import * as kue from 'kue';
+/// <reference types="bull" />
+import * as bull from 'bull';
 export interface Options {
-    queue: kue.Queue;
-    jobName: string;
+    queue: bull.Queue;
     promClient?: any;
-    prefixMetricName?: string;
+    labels?: string[];
     interval?: number;
 }
 export declare function init(opts: Options): {
