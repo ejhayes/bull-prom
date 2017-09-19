@@ -10,6 +10,7 @@ export interface Options {
 
 export function init(opts: Options) {
   const { queue, interval = 60000, promClient = client } = opts;
+  const QUEUE_NAME_LABEL = 'queue_name';
 
   const activeMetricName    = 'jobs_active_total';
   const waitingMetricName   = 'jobs_waiting_total';
@@ -17,11 +18,11 @@ export function init(opts: Options) {
   const failedMetricName    = 'jobs_failed_total';
   const delayedMetricName   = 'jobs_delayed_total';
 
-  const completedMetric = new promClient.Gauge(completedMetricName, 'Number of completed jobs', [ 'queueName' ]);
-  const failedMetric    = new promClient.Gauge(failedMetricName,    'Number of failed jobs',    [ 'queueName' ]);
-  const delayedMetric   = new promClient.Gauge(delayedMetricName,   'Number of delayed jobs',   [ 'queueName' ]);
-  const activeMetric    = new promClient.Gauge(activeMetricName,    'Number of active jobs',    [ 'queueName' ]);
-  const waitingMetric   = new promClient.Gauge(waitingMetricName,   'Number of waiting jobs',   [ 'queueName' ]);
+  const completedMetric = new promClient.Gauge(completedMetricName, 'Number of completed jobs', [ QUEUE_NAME_LABEL ]);
+  const failedMetric    = new promClient.Gauge(failedMetricName,    'Number of failed jobs',    [ QUEUE_NAME_LABEL ]);
+  const delayedMetric   = new promClient.Gauge(delayedMetricName,   'Number of delayed jobs',   [ QUEUE_NAME_LABEL ]);
+  const activeMetric    = new promClient.Gauge(activeMetricName,    'Number of active jobs',    [ QUEUE_NAME_LABEL ]);
+  const waitingMetric   = new promClient.Gauge(waitingMetricName,   'Number of waiting jobs',   [ QUEUE_NAME_LABEL ]);
 
   let metricInterval: any;
 
