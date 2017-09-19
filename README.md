@@ -1,5 +1,7 @@
 # Bull Prom
-Provides [promotheus](https://prometheus.io/) metrics for [Bull](https://github.com/OptimalBits/bull)
+[![npm version](https://badge.fury.io/js/bull-prom.svg?style=flat)](http://badge.fury.io/js/bull-prom)
+
+Provides [Prometheus](https://prometheus.io/) metrics for [Bull](https://github.com/OptimalBits/bull)
 
 Metrics:
 - waiting jobs (gauge)
