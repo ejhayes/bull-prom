@@ -28,12 +28,12 @@ export function init(opts: Options) {
 
   function run() {
     metricInterval = setInterval(() => {
-      queue.getJobCounts().then(({ completed, failed, delayed, active, wait }) => {
+      queue.getJobCounts().then(({ completed, failed, delayed, active, waiting }) => {
         completedMetric.labels((queue as any).name).set(completed || 0);
         failedMetric.labels((queue as any).name).set(failed || 0);
         delayedMetric.labels((queue as any).name).set(delayed || 0);
         activeMetric.labels((queue as any).name).set(active || 0);
-        waitingMetric.labels((queue as any).name).set(wait || 0);
+        waitingMetric.labels((queue as any).name).set(waiting || 0);
       });
     }, interval);
   }
