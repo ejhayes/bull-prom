@@ -1,4 +1,3 @@
-/// <reference types="bull" />
 import * as bull from 'bull';
 export interface Options {
     queue: bull.Queue;
