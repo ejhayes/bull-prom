@@ -1,6 +1,6 @@
 {
   "name": "bull-prom",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Provide prometheus metrics for Bull",
   "license": "MIT",
   "repository": "https://github.com/pbadenski/bull-prom",
