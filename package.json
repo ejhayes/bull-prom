@@ -23,9 +23,9 @@
     "watch": "npm run build -- --watch",
     "watch:test": "npm run test -- --watch"
   },
-  "dependencies": {
-    "bull": "^3.2.0",
-    "prom-client": "^11.5.3"
+  "peerDependencies": {
+    "bull": ">=3",
+    "prom-client": ">=9"
   },
   "devDependencies": {
     "@types/bull": "^3.0.0",
@@ -41,7 +41,9 @@
     "sinon": "^7.5.0",
     "ts-node": "^8.4.1",
     "tslint": "^5.0.0",
-    "typescript": "^3.6.3"
+    "typescript": "^3.6.3",
+    "bull": "^3.2.0",
+    "prom-client": "^11.5.3"
   },
   "engines": {
     "node": ">=4.0.0"
