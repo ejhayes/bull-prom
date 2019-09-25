@@ -1,6 +1,6 @@
 {
   "name": "bull-prom",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Provide prometheus metrics for Bull",
   "license": "MIT",
   "repository": "https://github.com/pbadenski/bull-prom",
@@ -33,17 +33,17 @@
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.7.7",
     "@types/sinon": "^7.0.13",
+    "bull": "^3.2.0",
     "chai": "^4.2.0",
     "coveralls": "^3.0.6",
     "mocha": "^6.2.0",
     "nyc": "^14.1.1",
+    "prom-client": "^11.5.3",
     "rimraf": "^3.0.0",
     "sinon": "^7.5.0",
     "ts-node": "^8.4.1",
     "tslint": "^5.0.0",
-    "typescript": "^3.6.3",
-    "bull": "^3.2.0",
-    "prom-client": "^11.5.3"
+    "typescript": "^3.6.3"
   },
   "engines": {
     "node": ">=4.0.0"
