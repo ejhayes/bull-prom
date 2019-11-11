@@ -17,16 +17,25 @@ export function init(opts: Options) {
   const completedMetricName = 'jobs_completed_total';
   const failedMetricName    = 'jobs_failed_total';
   const delayedMetricName   = 'jobs_delayed_total';
+  const durationMetricName   = 'jobs_duration';
 
-  const completedMetric = new promClient.Gauge(completedMetricName, 'Number of completed jobs', [ QUEUE_NAME_LABEL ]);
-  const failedMetric    = new promClient.Gauge(failedMetricName,    'Number of failed jobs',    [ QUEUE_NAME_LABEL ]);
-  const delayedMetric   = new promClient.Gauge(delayedMetricName,   'Number of delayed jobs',   [ QUEUE_NAME_LABEL ]);
-  const activeMetric    = new promClient.Gauge(activeMetricName,    'Number of active jobs',    [ QUEUE_NAME_LABEL ]);
-  const waitingMetric   = new promClient.Gauge(waitingMetricName,   'Number of waiting jobs',   [ QUEUE_NAME_LABEL ]);
+  const completedMetric = new promClient.Gauge(completedMetricName,  'Number of completed jobs', [ QUEUE_NAME_LABEL ]);
+  const failedMetric    = new promClient.Gauge(failedMetricName,     'Number of failed jobs',    [ QUEUE_NAME_LABEL ]);
+  const delayedMetric   = new promClient.Gauge(delayedMetricName,    'Number of delayed jobs',   [ QUEUE_NAME_LABEL ]);
+  const activeMetric    = new promClient.Gauge(activeMetricName,     'Number of active jobs',    [ QUEUE_NAME_LABEL ]);
+  const waitingMetric   = new promClient.Gauge(waitingMetricName,    'Number of waiting jobs',   [ QUEUE_NAME_LABEL ]);
+  const durationMetric  = new promClient.Summary(durationMetricName, 'Duration of jobs',         [ QUEUE_NAME_LABEL ]);
 
   let metricInterval: any;
 
   function run() {
+    queue.on('completed', (job) => {
+      if (!job.finishedOn) {
+        return;
+      }
+      const duration = job.finishedOn - job.processedOn!;
+      durationMetric.labels((queue as any).name).observe(duration);
+    });
     metricInterval = setInterval(() => {
       queue.getJobCounts().then(({ completed, failed, delayed, active, waiting }) => {
         completedMetric.labels((queue as any).name).set(completed || 0);
