@@ -2,14 +2,13 @@ import client = require('prom-client');
 import * as bull from 'bull';
 
 export interface Options {
-  queue: bull.Queue;
   promClient?: any;
   labels?: string[];
   interval?: number;
 }
 
 export function init(opts: Options) {
-  const { queue, interval = 60000, promClient = client } = opts;
+  const { interval = 60000, promClient = client } = opts;
   const QUEUE_NAME_LABEL = 'queue_name';
 
   const activeMetricName    = 'jobs_active_total';
@@ -26,9 +25,10 @@ export function init(opts: Options) {
   const waitingMetric   = new promClient.Gauge(waitingMetricName,    'Number of waiting jobs',   [ QUEUE_NAME_LABEL ]);
   const durationMetric  = new promClient.Summary(durationMetricName, 'Duration of jobs',         [ QUEUE_NAME_LABEL ]);
 
-  let metricInterval: any;
+  function start(queue: bull.Queue) {
 
-  function run() {
+    let metricInterval: any;
+
     queue.on('completed', (job) => {
       if (!job.finishedOn) {
         return;
@@ -45,14 +45,12 @@ export function init(opts: Options) {
         waitingMetric.labels((queue as any).name).set(waiting || 0);
       });
     }, interval);
-  }
-
-  function stop() {
-    metricInterval.clearInterval();
+    return {
+      stop: () => metricInterval.clearInterval(),
+    };
   }
 
   return {
-    run,
-    stop,
+    start,
   };
 }
