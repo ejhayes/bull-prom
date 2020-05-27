@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [[ -z $(git status -uno --porcelain) ]]; then
-  VERSION="$(npm view worker-bee version)";
+  VERSION="$(npm view bull-prom version)";
   read -p "Enter the new version number: (currently ${VERSION}) " BUMP;
   VERSION="$(npm version $BUMP --no-git-tag-version)";
   conventional-changelog -p angular -i CHANGELOG.md -s;
@@ -12,7 +12,7 @@ if [[ -z $(git status -uno --porcelain) ]]; then
   if [ "$CONDITION" == "y" ]; then
     git add package.json CHANGELOG.md;
     git commit -m "chore(publish): ${VERSION}";
-    git tag "${VERSION}" -m "See https://github.com/pricingmonkey/worker-bee/blob/master/CHANGELOG.md#${BUMP}";
+    git tag "${VERSION}" -m "See https://github.com/pbadenski/bull-prom/blob/master/CHANGELOG.md#${BUMP}";
     git push origin master;
     git push origin "${VERSION}";
     read -p "Which dist-tag? (latest) " DIST_TAG;
