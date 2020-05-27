@@ -25,28 +25,28 @@
   },
   "peerDependencies": {
     "bull": ">=3",
-    "prom-client": ">=9"
+    "prom-client": ">=12"
   },
   "devDependencies": {
-    "@types/bull": "^3.0.0",
-    "@types/chai": "^4.2.3",
-    "@types/mocha": "^5.2.7",
-    "@types/node": "^12.7.7",
-    "@types/sinon": "^7.0.13",
+    "@types/bull": "^3.13.0",
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^14.0.5",
+    "@types/sinon": "^9.0.4",
     "chai": "^4.2.0",
-    "coveralls": "^3.0.6",
-    "mocha": "^6.2.0",
-    "nyc": "^14.1.1",
-    "rimraf": "^3.0.0",
-    "sinon": "^7.5.0",
-    "ts-node": "^8.4.1",
-    "tslint": "^5.0.0",
-    "typescript": "^3.6.3",
+    "coveralls": "^3.1.0",
+    "mocha": "^7.2.0",
+    "nyc": "^15.0.1",
+    "rimraf": "^3.0.2",
+    "sinon": "^9.0.2",
+    "ts-node": "^8.10.1",
+    "tslint": "^6.1.2",
+    "typescript": "^3.9.3",
     "bull": "^3.2.0",
     "prom-client": "^11.5.3"
   },
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=10"
   },
   "nyc": {
     "include": [
