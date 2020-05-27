@@ -3,4 +3,4 @@
 
 ### Chores
 
-* **dependencies** upgrade all to latest version ([8526b1](https://github.com/pbadenski/bull-prom/commit/8526b1)), closes ([#2](https://github.com/pbadenski/bull-prom/issues/2)) **@robbiet480**
+* **dependencies**: upgrade all to latest version ([8526b1](https://github.com/pbadenski/bull-prom/commit/8526b1)), closes ([#2](https://github.com/pbadenski/bull-prom/issues/2)) **@robbiet480**
