@@ -9,7 +9,9 @@ export interface Options {
 
 export function init(opts: Options) {
   const { interval = 60000, promClient = client } = opts;
+
   const QUEUE_NAME_LABEL = 'queue_name';
+  const QUEUE_PREFIX_LABEL = 'queue_prefix';
 
   const activeMetricName = 'jobs_active_total';
   const waitingMetricName = 'jobs_waiting_total';
@@ -21,44 +23,48 @@ export function init(opts: Options) {
   const completedMetric = new promClient.Gauge({
     name: completedMetricName,
     help: 'Number of completed jobs',
-    labelNames: [QUEUE_NAME_LABEL],
+    labelNames: [QUEUE_NAME_LABEL, QUEUE_PREFIX_LABEL],
   });
 
   const failedMetric = new promClient.Gauge({
     name: failedMetricName,
     help: 'Number of failed jobs',
-    labelNames: [QUEUE_NAME_LABEL],
+    labelNames: [QUEUE_NAME_LABEL, QUEUE_PREFIX_LABEL],
   });
 
   const delayedMetric = new promClient.Gauge({
     name: delayedMetricName,
     help: 'Number of delayed jobs',
-    labelNames: [QUEUE_NAME_LABEL],
+    labelNames: [QUEUE_NAME_LABEL, QUEUE_PREFIX_LABEL],
   });
 
   const activeMetric = new promClient.Gauge({
     name: activeMetricName,
     help: 'Number of active jobs',
-    labelNames: [QUEUE_NAME_LABEL],
+    labelNames: [QUEUE_NAME_LABEL, QUEUE_PREFIX_LABEL],
   });
 
   const waitingMetric = new promClient.Gauge({
     name: waitingMetricName,
     help: 'Number of waiting jobs',
-    labelNames: [QUEUE_NAME_LABEL],
+    labelNames: [QUEUE_NAME_LABEL, QUEUE_PREFIX_LABEL],
   });
 
   const durationMetric = new promClient.Summary({
     name: durationMetricName,
     help: 'Duration of jobs',
-    labelNames: [QUEUE_NAME_LABEL],
+    labelNames: [QUEUE_NAME_LABEL, QUEUE_PREFIX_LABEL],
   });
 
   function start(queue: bull.Queue) {
     let metricInterval: any;
 
+    // @ts-ignore
+    const keyPrefix = queue.keyPrefix.replace(/.*\{|\}/gi, '')
+
     const labels = {
-      [QUEUE_NAME_LABEL]: queue.name
+      [QUEUE_NAME_LABEL]: queue.name,
+      [QUEUE_PREFIX_LABEL]: keyPrefix,
     }
 
     queue.on('completed', (job) => {
