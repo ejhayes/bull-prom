@@ -51,8 +51,10 @@ export function init(opts: Options) {
 
   const durationMetric = new promClient.Summary({
     name: durationMetricName,
-    help: 'Duration of jobs',
-    labelNames: [QUEUE_NAME_LABEL, QUEUE_PREFIX_LABEL]
+    help: 'Time to complete jobs',
+    labelNames: [QUEUE_NAME_LABEL, QUEUE_PREFIX_LABEL],
+    maxAgeSeconds: 300,
+    ageBuckets: 13,
   });
 
   function start(queue: bull.Queue) {
