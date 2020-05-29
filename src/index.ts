@@ -3,7 +3,6 @@ import * as bull from 'bull';
 
 export interface Options {
   promClient?: any;
-  labels?: string[];
   interval?: number;
 }
 
@@ -53,7 +52,7 @@ export function init(opts: Options) {
   const durationMetric = new promClient.Summary({
     name: durationMetricName,
     help: 'Duration of jobs',
-    labelNames: [QUEUE_NAME_LABEL, QUEUE_PREFIX_LABEL],
+    labelNames: [QUEUE_NAME_LABEL, QUEUE_PREFIX_LABEL]
   });
 
   function start(queue: bull.Queue) {
