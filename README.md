@@ -52,6 +52,14 @@ options:
 Start running and fetching the data from Bull based on interval with the given Bull queue.
 Returns a optional function `stop()` which will stop monitoring of the queue if called.
 
+## Contributors
+
+**@mjgp2**
+
+**@robbiet480**
+
+**@TotallyNotElite**
+
 ## License
 MIT © [Pawel Badenski](https://github.com/pbadenski)
 
