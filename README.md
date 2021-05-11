@@ -63,6 +63,13 @@ Returns a queue metrics object which includes the following methods:
 
 **@TotallyNotElite**
 
+## Contributors
+
+* **@mjgp2**
+* **@robbiet480**
+* **@TotallyNotElite**
+* **@ejhayes**
+
 ## License
 MIT © [Pawel Badenski](https://github.com/pbadenski)
 
