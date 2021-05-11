@@ -2,7 +2,7 @@ import client = require('prom-client');
 import * as bull from 'bull';
 
 export interface Options {
-  promClient?: any;
+  promClient?: typeof client;
   interval?: number;
 }
 
@@ -58,7 +58,6 @@ export function init(opts: Options) {
   });
 
   function start(queue: bull.Queue) {
-    let metricInterval: any;
 
     // @ts-ignore
     const keyPrefix = queue.keyPrefix.replace(/.*\{|\}/gi, '')
@@ -76,7 +75,7 @@ export function init(opts: Options) {
       durationMetric.observe(labels, duration);
     });
 
-    metricInterval = setInterval(() => {
+    const metricInterval = setInterval(() => {
       queue
         .getJobCounts()
         .then(({ completed, failed, delayed, active, waiting }) => {
@@ -87,8 +86,18 @@ export function init(opts: Options) {
           waitingMetric.set(labels, (waiting || 0));
         });
     }, interval);
+
+    const removeMetrics = () => {
+      durationMetric.remove(labels);
+      completedMetric.remove(labels);
+      failedMetric.remove(labels);
+      delayedMetric.remove(labels);
+      activeMetric.remove(labels);
+      waitingMetric.remove(labels);
+    }
     return {
-      stop: () => metricInterval.clearInterval(),
+      stop: () => clearInterval(metricInterval),
+      remove: removeMetrics
     };
   }
 

@@ -45,12 +45,15 @@ started.stop();
 Initialize
 
 options:
-- promClient (*optional*): prom client instance
-- interval (*optional*, default 60000): interval in ms to fetch the Bull statistic
+- `promClient` (*optional*): prom client instance
+- `interval` (*optional*, default 60000): interval in ms to fetch the Bull statistic
 
 ### start(queue)
 Start running and fetching the data from Bull based on interval with the given Bull queue.
-Returns a optional function `stop()` which will stop monitoring of the queue if called.
+
+Returns a queue metrics object which includes the following methods:
+- `stop()`: stops monitoring the queue metrics
+- `remove()`: removes metrics from prometheus
 
 ## Contributors
 
