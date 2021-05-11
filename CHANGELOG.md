@@ -1,3 +1,10 @@
+<a name="3.1.1"></a>
+## [3.1.1](https://github.com/pbadenski/bull-prom/compare/v3.1.0...v3.1.1) (2021-05-11)
+
+### Chores
+
+* upgrade all depeendencies to latest versions
+
 <a name="3.1.0"></a>
 # [3.1.0](https://github.com/pbadenski/bull-prom/compare/v3.0.0...v3.1.0) (2021-05-11)
 
