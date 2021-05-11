@@ -1,3 +1,11 @@
+<a name="3.1.0"></a>
+# [3.1.0](https://github.com/pbadenski/bull-prom/compare/v3.0.0...v3.1.0) (2021-05-11)
+
+### Features
+
+* Add remove() function to queue metrics to allow removing all queue specific metrics from prometheus **@ejhayes** ([854b49c](https://github.com/pbadenski/bull-prom/commit/854b49c861f5dac7471790ba4e37aa5cb6d3d641))
+
+<a name="3.0.0"></a>
 # [3.0.0](https://github.com/pbadenski/bull-prom/compare/v2.1.0...v3.0.0) (2020-06-03)
 
 ### Features
@@ -13,10 +21,6 @@
 ### Chores
 
 * upgrade to prom-client v12 **@robbiet480**
-
-# [1.2.0](https://github.com/pbadenski/bull-prom/compare/v2.0.0...1.2.0) (2019-11-11)
-
-
 
 <a name="2.1.0"></a>
 ## [2.1.0](https://github.com/pbadenski/bull-prom/compare/v2.0.0...v2.1.0) (2020-05-27)
