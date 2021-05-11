@@ -55,13 +55,6 @@ Returns a queue metrics object which includes the following methods:
 - `stop()`: stops monitoring the queue metrics
 - `remove()`: removes metrics from prometheus
 
-## Contributors
-
-**@mjgp2**
-
-**@robbiet480**
-
-**@TotallyNotElite**
 
 ## Contributors
 
