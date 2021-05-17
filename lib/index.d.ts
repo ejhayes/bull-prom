@@ -3,6 +3,7 @@ import * as bull from 'bull';
 export interface Options {
     promClient?: typeof client;
     interval?: number;
+    useGlobal?: boolean;
 }
 export declare function init(opts: Options): {
     start: (queue: bull.Queue) => {

@@ -4,10 +4,11 @@ import * as bull from 'bull';
 export interface Options {
   promClient?: typeof client;
   interval?: number;
+  useGlobal?: boolean;
 }
 
 export function init(opts: Options) {
-  const { interval = 60000, promClient = client } = opts;
+  const { interval = 60000, promClient = client, useGlobal = false } = opts;
 
   const QUEUE_NAME_LABEL = 'queue_name';
   const QUEUE_PREFIX_LABEL = 'queue_prefix';
@@ -67,13 +68,25 @@ export function init(opts: Options) {
       [QUEUE_PREFIX_LABEL]: keyPrefix,
     }
 
-    queue.on('completed', (job) => {
-      if (!job.finishedOn) {
-        return;
-      }
-      const duration = job.finishedOn - job.processedOn!;
-      durationMetric.observe(labels, duration);
-    });
+    if (useGlobal) {
+      queue.on('global:completed', async (jobId: number) => {
+        const job = await queue.getJob(jobId);
+
+        if (!job.finishedOn) {
+          return;
+        }
+        const duration = job.finishedOn - job.processedOn!;
+        durationMetric.observe(labels, duration);
+      });
+    } else {
+      queue.on('completed', (job) => {
+        if (!job.finishedOn) {
+          return;
+        }
+        const duration = job.finishedOn - job.processedOn!;
+        durationMetric.observe(labels, duration);
+      });
+    }
 
     const metricInterval = setInterval(() => {
       queue
