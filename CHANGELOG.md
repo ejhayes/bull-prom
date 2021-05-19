@@ -1,3 +1,13 @@
+<a name="3.2.1"></a>
+## [3.2.1](https://github.com/pbadenski/bull-prom/compare/v3.1.1...v3.2.1) (2021-05-19)
+
+
+### Features
+
+* add configuration option to listen to global:completed event. Otherwise the local completed event will not work for completed jobs running elsewhere. ([c6a7af2](https://github.com/pbadenski/bull-prom/commit/c6a7af2693d09c9a5bdfb6910f56e61cce83ddee))
+
+
+
 <a name="3.1.1"></a>
 ## [3.1.1](https://github.com/pbadenski/bull-prom/compare/v3.1.0...v3.1.1) (2021-05-11)
 
