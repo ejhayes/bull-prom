@@ -4,13 +4,20 @@ import * as bull from 'bull';
 export interface Options {
   promClient?: typeof client;
   interval?: number;
+  useGlobal?: boolean;
+}
+
+export enum JobStatus {
+  COMPLETED = 'completed',
+  FAILED = 'failed'
 }
 
 export function init(opts: Options) {
-  const { interval = 60000, promClient = client } = opts;
+  const { interval = 60000, promClient = client, useGlobal = false } = opts;
 
   const QUEUE_NAME_LABEL = 'queue_name';
   const QUEUE_PREFIX_LABEL = 'queue_prefix';
+  const STATUS_LABEL = 'status';
 
   const activeMetricName = 'jobs_active_total';
   const waitingMetricName = 'jobs_waiting_total';
@@ -18,6 +25,8 @@ export function init(opts: Options) {
   const failedMetricName = 'jobs_failed_total';
   const delayedMetricName = 'jobs_delayed_total';
   const durationMetricName = 'jobs_duration_milliseconds';
+  const waitingDurationMetricName = 'jobs_waiting_duration_milliseconds';
+  const attemptsMadeMetricName = 'jobs_attempts';
 
   const completedMetric = new promClient.Gauge({
     name: completedMetricName,
@@ -52,10 +61,45 @@ export function init(opts: Options) {
   const durationMetric = new promClient.Summary({
     name: durationMetricName,
     help: 'Time to complete jobs',
-    labelNames: [QUEUE_NAME_LABEL, QUEUE_PREFIX_LABEL],
+    labelNames: [QUEUE_NAME_LABEL, QUEUE_PREFIX_LABEL, STATUS_LABEL],
     maxAgeSeconds: 300,
     ageBuckets: 13,
   });
+
+  const waitingDurationMetric = new promClient.Summary({
+    name: waitingDurationMetricName,
+    help: 'Time spent waiting for a job to run',
+    labelNames: [QUEUE_NAME_LABEL, QUEUE_PREFIX_LABEL, STATUS_LABEL],
+    maxAgeSeconds: 300,
+    ageBuckets: 13
+  });
+
+  const attemptsMadeMetric = new promClient.Summary({
+    name: attemptsMadeMetricName,
+    help: 'Job attempts made',
+    labelNames: [QUEUE_NAME_LABEL, QUEUE_PREFIX_LABEL, STATUS_LABEL],
+    maxAgeSeconds: 300,
+    ageBuckets: 13
+  });
+
+  function recordJobMetrics(labels: {[key: string]: string}, status: JobStatus, job: bull.Job) {
+    if (!job.finishedOn) {
+      return;
+    }
+
+    const jobLabels = {
+      [STATUS_LABEL]: status,
+      ...labels
+    }
+
+    const jobDuration = job.finishedOn - job.processedOn!;
+    durationMetric.observe(jobLabels, jobDuration);
+
+    const waitingDuration = job.processedOn - job.timestamp;
+    waitingDurationMetric.observe(jobLabels, waitingDuration);
+
+    attemptsMadeMetric.observe(jobLabels, job.attemptsMade);
+  }
 
   function start(queue: bull.Queue) {
 
@@ -67,13 +111,23 @@ export function init(opts: Options) {
       [QUEUE_PREFIX_LABEL]: keyPrefix,
     }
 
-    queue.on('completed', (job) => {
-      if (!job.finishedOn) {
-        return;
-      }
-      const duration = job.finishedOn - job.processedOn!;
-      durationMetric.observe(labels, duration);
-    });
+    if (useGlobal) {
+      queue.on('global:completed', async (jobId: number) => {
+        const job = await queue.getJob(jobId);
+        recordJobMetrics(labels, JobStatus.COMPLETED, job);
+      });
+      queue.on('global:failed', async (jobId: number) => {
+        const job = await queue.getJob(jobId);
+        recordJobMetrics(labels, JobStatus.FAILED, job)
+      })
+    } else {
+      queue.on('completed', (job) => {
+        recordJobMetrics(labels, JobStatus.COMPLETED, job);
+      });
+      queue.on('failed', (job) => {
+        recordJobMetrics(labels, JobStatus.FAILED, job)
+      })
+    }
 
     const metricInterval = setInterval(() => {
       queue
@@ -94,6 +148,8 @@ export function init(opts: Options) {
       delayedMetric.remove(labels);
       activeMetric.remove(labels);
       waitingMetric.remove(labels);
+      waitingDurationMetric.remove(labels);
+      attemptsMadeMetric.remove(labels);
     }
     return {
       stop: () => clearInterval(metricInterval),

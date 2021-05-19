@@ -5,14 +5,18 @@ Provides [Prometheus](https://prometheus.io/) metrics for [Bull](https://github.
 
 ## Metrics
 
-| Metric                       | type    | description                                             |
-|------------------------------|---------|---------------------------------------------------------|
-| jobs_completed_total         | counter | Total number of completed jobs                          |
-| jobs_duration_milliseconds   | summary | Processing time for completed jobs                      |
-| jobs_active_total            | counter | Total number of active jobs (currently being processed) |
-| jobs_delayed_total           | counter | Total number of jobs that will run in the future        |
-| jobs_failed_total            | counter | Total number of failed jobs                             |
-| jobs_waiting_total           | counter | Total number of jobs waiting to be processed            |
+| Metric                              | type    | description                                             |
+|-------------------------------------|---------|---------------------------------------------------------|
+| jobs_completed_total                | counter | Total number of completed jobs                          |
+| jobs_active_total                   | counter | Total number of active jobs (currently being processed) |
+| jobs_delayed_total                  | counter | Total number of jobs that will run in the future        |
+| jobs_failed_total                   | counter | Total number of failed jobs                             |
+| jobs_waiting_total                  | counter | Total number of jobs waiting to be processed            |
+| jobs_duration_milliseconds          | summary | Processing time for completed/failed                    |
+| jobs_waiting_duration_milliseconds  | summary | Waiting time for completed/failed                       |
+| jobs_attempts                       | summary | Processing time for completed/failed/jobs               |
+
+_IMPORTANT_: If you are using this library to track job duration metrics for a queue for multiple consumers you will need to listen to the `global:completed` event. Otherwise this library will not record job duration metrics. To listen to this event instead of the `completed` event you'll need to set the init paremeter `useGlobal` to true.
 
 ## Usage
 ```typescript
@@ -25,6 +29,7 @@ const queue = new Queue('myQueue'...);
 const bullMetric = bullProm.init({
   promClient, // optional, it will use internal prom client if it is not given
   interval: 1000, // optional, in ms, default to 60000
+  useGlobal: false, // optional, default to false
 });
 
 const started = bullMetric.start(queue);
@@ -46,7 +51,8 @@ Initialize
 
 options:
 - `promClient` (*optional*): prom client instance
-- `interval` (*optional*, default 60000): interval in ms to fetch the Bull statistic
+- `interval` (*optional*, default `60000`): interval in ms to fetch the Bull statistic
+- `useGlobal` (*optional*, default `false`)
 
 ### start(queue)
 Start running and fetching the data from Bull based on interval with the given Bull queue.
