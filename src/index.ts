@@ -1,5 +1,6 @@
 import client = require('prom-client');
 import * as bull from 'bull';
+import { getOrCreateMetric, Metrics } from './utils';
 
 export interface Options {
   promClient?: typeof client;
@@ -28,59 +29,59 @@ export function init(opts: Options) {
   const waitingDurationMetricName = 'jobs_waiting_duration_milliseconds';
   const attemptsMadeMetricName = 'jobs_attempts';
 
-  const completedMetric = new promClient.Gauge({
+  const completedMetric = getOrCreateMetric(Metrics.Gauge, {
     name: completedMetricName,
     help: 'Number of completed jobs',
     labelNames: [QUEUE_NAME_LABEL, QUEUE_PREFIX_LABEL],
-  });
+  }) as client.Gauge<string>;
 
-  const failedMetric = new promClient.Gauge({
+  const failedMetric = getOrCreateMetric(Metrics.Gauge, {
     name: failedMetricName,
     help: 'Number of failed jobs',
     labelNames: [QUEUE_NAME_LABEL, QUEUE_PREFIX_LABEL],
-  });
+  }) as client.Gauge<string>;
 
-  const delayedMetric = new promClient.Gauge({
+  const delayedMetric = getOrCreateMetric(Metrics.Gauge, {
     name: delayedMetricName,
     help: 'Number of delayed jobs',
     labelNames: [QUEUE_NAME_LABEL, QUEUE_PREFIX_LABEL],
-  });
+  }) as client.Gauge<string>;
 
-  const activeMetric = new promClient.Gauge({
+  const activeMetric = getOrCreateMetric(Metrics.Gauge, {
     name: activeMetricName,
     help: 'Number of active jobs',
     labelNames: [QUEUE_NAME_LABEL, QUEUE_PREFIX_LABEL],
-  });
+  }) as client.Gauge<string>;
 
-  const waitingMetric = new promClient.Gauge({
+  const waitingMetric = getOrCreateMetric(Metrics.Gauge, {
     name: waitingMetricName,
     help: 'Number of waiting jobs',
     labelNames: [QUEUE_NAME_LABEL, QUEUE_PREFIX_LABEL],
-  });
+  })as client.Gauge<string>;
 
-  const durationMetric = new promClient.Summary({
+  const durationMetric = getOrCreateMetric(Metrics.Summary, {
     name: durationMetricName,
     help: 'Time to complete jobs',
     labelNames: [QUEUE_NAME_LABEL, QUEUE_PREFIX_LABEL, STATUS_LABEL],
     maxAgeSeconds: 300,
     ageBuckets: 13,
-  });
+  }) as client.Summary<string>;
 
-  const waitingDurationMetric = new promClient.Summary({
+  const waitingDurationMetric = getOrCreateMetric(Metrics.Summary, {
     name: waitingDurationMetricName,
     help: 'Time spent waiting for a job to run',
     labelNames: [QUEUE_NAME_LABEL, QUEUE_PREFIX_LABEL, STATUS_LABEL],
     maxAgeSeconds: 300,
     ageBuckets: 13
-  });
+  }) as client.Summary<string>;
 
-  const attemptsMadeMetric = new promClient.Summary({
+  const attemptsMadeMetric = getOrCreateMetric(Metrics.Summary, {
     name: attemptsMadeMetricName,
     help: 'Job attempts made',
     labelNames: [QUEUE_NAME_LABEL, QUEUE_PREFIX_LABEL, STATUS_LABEL],
     maxAgeSeconds: 300,
     ageBuckets: 13
-  });
+  }) as client.Summary<string>;
 
   function recordJobMetrics(labels: {[key: string]: string}, status: JobStatus, job: bull.Job) {
     if (!job.finishedOn) {

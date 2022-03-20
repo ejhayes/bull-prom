@@ -68,6 +68,7 @@ Returns a queue metrics object which includes the following methods:
 * **@robbiet480**
 * **@TotallyNotElite**
 * **@ejhayes**
+* **@aagregorio**
 
 ## License
 MIT © [Pawel Badenski](https://github.com/pbadenski)
