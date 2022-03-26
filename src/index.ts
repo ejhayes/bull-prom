@@ -114,11 +114,15 @@ export function init(opts: Options) {
     if (useGlobal) {
       queue.on('global:completed', async (jobId: number) => {
         const job = await queue.getJob(jobId);
-        recordJobMetrics(labels, JobStatus.COMPLETED, job);
+        if (job) {
+          recordJobMetrics(labels, JobStatus.COMPLETED, job);
+        }
       });
       queue.on('global:failed', async (jobId: number) => {
         const job = await queue.getJob(jobId);
-        recordJobMetrics(labels, JobStatus.FAILED, job)
+        if (job) {
+          recordJobMetrics(labels, JobStatus.FAILED, job)
+        }
       })
     } else {
       queue.on('completed', (job) => {
