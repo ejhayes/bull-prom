@@ -12,6 +12,7 @@ Provides [Prometheus](https://prometheus.io/) metrics for [Bull](https://github.
 | jobs_delayed_total                  | counter | Total number of jobs that will run in the future        |
 | jobs_failed_total                   | counter | Total number of failed jobs                             |
 | jobs_waiting_total                  | counter | Total number of jobs waiting to be processed            |
+| jobs_paused_total                   | counter | Total number of paused jobs                             |
 | jobs_duration_milliseconds          | summary | Processing time for completed/failed                    |
 | jobs_waiting_duration_milliseconds  | summary | Waiting time for completed/failed                       |
 | jobs_attempts                       | summary | Processing time for completed/failed/jobs               |
